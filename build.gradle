@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id("xyz.jpenilla.run-paper") version "2.3.1"
+    // Добавляем paperweight для доступа к NMS
+
+
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17"
+}
+
+group = 'net.daga'
+version = '0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+}
+
+dependencies {
+    // Заменяем обычный compileOnly на paperweight devBundle
+    // Это даст тебе доступ ко всем классам net.minecraft
+    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:1.21.11-R0.1-SNAPSHOT")
+}
+
+tasks {
+    runServer {
+        minecraftVersion("1.21.1")
+    }
+
+    // Это заставит проект пересобираться правильно с учетом маппингов
+    assemble {
+        dependsOn(reobfJar)
+    }
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(targetJavaVersion)
+}

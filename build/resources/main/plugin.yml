@@ -1,0 +1,11 @@
+name: sunstriker
+version: '0.1-SNAPSHOT'
+main: net.daga.sunstriker.Sunstriker
+api-version: '1.21'
+commands:
+  get_sunstriker:
+    description: Выдать посох Солнцестояния (Только для ОП)
+    usage: /get_sunstriker
+  sun_save:
+    description: Сохранить постройку как Хранителя Солнца
+    usage: /sun_save <x1> <y1> <z1> <x2> <y2> <z2>
