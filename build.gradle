@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'net.daga'
-version = '0.1-SNAPSHOT'
+version = '0.5-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -22,6 +22,7 @@ dependencies {
     // Заменяем обычный compileOnly на paperweight devBundle
     // Это даст тебе доступ ко всем классам net.minecraft
     paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:1.21.11-R0.1-SNAPSHOT")
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 tasks {

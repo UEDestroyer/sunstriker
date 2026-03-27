@@ -1,2 +1,2 @@
 Command: /usr/lib/jvm/java-21-openjdk-amd64/bin/java -Xmx1G -classpath /home/daga/.gradle/caches/modules-2/files-2.1/net.fabricmc/tiny-remapper/0.11.1/6c1f29838864ba8f495855edfc8ef17706fedb5d/tiny-remapper-0.11.1-fat.jar net.fabricmc.tinyremapper.Main /home/daga/OpenideProjects/sunstriker/build/libs/sunstriker-0.1-SNAPSHOT.jar /home/daga/OpenideProjects/sunstriker/build/libs/sunstriker-0.1-SNAPSHOT-reobf.jar /home/daga/OpenideProjects/sunstriker/.gradle/caches/paperweight/taskCache/reobfMappings.tiny mojang spigot /home/daga/OpenideProjects/sunstriker/.gradle/caches/paperweight/taskCache/mappedServerJar.jar --threads=1
-[INFO] Finished after 1128,96 ms.
+[INFO] Finished after 1279,19 ms.

@@ -2,6 +2,7 @@ package net.daga.sunstriker;
 
 import net.minecraft.world.entity.Mob;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,33 +41,26 @@ public class SunstrikerItem implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        // Проверяем, наш ли это предмет и нажата ли ПКМ
         if (item == null || item.getType() != itemType) return;
-        if (!item.getItemMeta().hasDisplayName() || !item.getItemMeta().getDisplayName().contains("Пиздец ₪")) return;
+        if (!item.hasItemMeta() || !item.getItemMeta().getDisplayName().contains("Пиздец ₪")) return;
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
-        // Проверка перезарядки (7 секунд = 140 тиков)
         if (player.hasCooldown(itemType)) {
             player.sendMessage("§cСпособность еще не готова!");
             return;
         }
 
-        // Ищем цель, на которую смотрит игрок (в радиусе 30 блоков)
         LivingEntity target = getTargetEntity(player, 30);
 
         if (target != null) {
-            // Превращаем цель в NMS LivingEntity
-            net.minecraft.world.entity.LivingEntity nmsTarget = ((CraftLivingEntity) target).getHandle();
+            // ПРАВИЛЬНЫЙ ДОСТУП К NMS ПЕРСОНАЖУ И ЦЕЛИ
+            net.minecraft.world.entity.player.Player nmsPlayer = ((org.bukkit.craftbukkit.entity.CraftPlayer) player).getHandle();
+            net.minecraft.world.entity.LivingEntity nmsTarget = ((org.bukkit.craftbukkit.entity.CraftLivingEntity) target).getHandle();
 
-            // Вызываем Sunstrike (в качестве владельца передаем null, так как кастует не Mob)
-            // Но чтобы избежать ошибок в методе executeSunstrike, мы передадим фиктивного "владельца"
-            // или немного адаптируем вызов.
+            // Вызываем страйк (теперь передаем nmsPlayer как LivingEntity)
+            Sunstriker.executeSunstrike(nmsPlayer, nmsTarget);
 
-            Sunstriker.executeSunstrike((Mob) player, nmsTarget);
-
-            // Устанавливаем визуальную перезарядку в 7 секунд
             player.setCooldown(itemType, 140);
-
             player.sendMessage("§eВы призываете гнев солнца на " + target.getName() + "!");
         } else {
             player.sendMessage("§7Цель не найдена.");
